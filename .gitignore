@@ -363,11 +363,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Input/Day1.txt
-/Input/Day2.txt
-/Input/Day3.txt
-/Input/Day4.txt
-/Input/Day5.txt
-/Input/Day6.txt
-/Input/Day7.txt
-/Input/Day8.txt
+
+# AoC Input
+Input/
