@@ -50,23 +50,9 @@ namespace AdventOfCode2023.Solutions
                 right.Add(int.Parse(sp[1]));
             }
 
-            left.Sort();
-            right.Sort();
+            var dict = right.CountBy(x => x).ToDictionary();
 
-            var dist = right.Distinct().ToList();
-            var dict = new Dictionary<int, int>();
-            foreach (var n in dist) 
-            {
-                dict[n] = right.Count(x => x==n);
-            }
-
-            foreach ((int l, int r) in left.Zip(right))
-            {
-                if (dict.ContainsKey(l))
-                {
-                    sum += l * dict[l];
-                }
-            }
+            sum = left.Where(dict.ContainsKey).Sum(l => l * dict[l]);
 
             Console.WriteLine(sum);
         }
