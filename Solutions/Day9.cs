@@ -114,7 +114,6 @@ namespace AdventOfCode2023.Solutions
                     {
                         if (j % 2 == 1 && input[j].Size >= fs.Size)
                         {
-
                             input[j].Size -= fs.Size;
                             input.Remove(fs);
                             input[i - 1].Size += fs.Size;
@@ -133,10 +132,7 @@ namespace AdventOfCode2023.Solutions
                 var fs = input[i];
                 if (fs.Id == -1)
                 {
-                    for (long j = 0; j < fs.Size; j++)
-                    {
-                        slot++;
-                    }
+                    slot += fs.Size;
                 }
                 else
                 {
