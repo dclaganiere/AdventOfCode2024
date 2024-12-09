@@ -173,7 +173,6 @@ namespace AdventOfCode2023.Solutions
         private bool IsLoop(List<List<char>> grid, int startRow, int startCol)
         {
             HashSet<(int r, int c, int dir)> visitedTurns = new();
-            HashSet<(int r, int c)> visited = new();
 
             int r = startRow;
             int c = startCol;
@@ -181,8 +180,6 @@ namespace AdventOfCode2023.Solutions
 
             while (!visitedTurns.Contains((r, c, dir)))
             {
-                visited.Add((r, c));
-
                 var n = directions[dir];
 
                 if (grid[r + n.r][c + n.c] == '#')
