@@ -15,8 +15,7 @@ namespace AdventOfCode2023.Solutions
         public void SolveA()
         {
             using StreamReader reader = new(InputFile);
-            int sum = 0;
-            long sum2 = 0;
+            long sum = 0;
 
             while (!reader.EndOfStream)
             {
@@ -46,15 +45,12 @@ namespace AdventOfCode2023.Solutions
 
                 if (validX == prize.X && validY == prize.Y)
                 {
-                    sum2 += (a * 3) + b;
+                    sum += (a * 3) + b;
                 }
 
-                sum += WinPrize(buttonA, buttonB, prize);
             }
 
             Console.WriteLine(sum);
-            Console.WriteLine(sum2);
-            Console.ReadLine();
         }
 
         public int WinPrize(Point buttonA, Point buttonB, Point prize, bool limitPresses = true)
@@ -63,7 +59,6 @@ namespace AdventOfCode2023.Solutions
             HashSet<(long x, long y)> visited = new();
 
             queue.Enqueue((new Point(0, 0), 0, 0), 0);
-
 
             while (queue.Count > 0)
             {
@@ -81,7 +76,6 @@ namespace AdventOfCode2023.Solutions
 
                 if (curr.loc.X == prize.X && curr.loc.Y == prize.Y)
                 {
-                    Console.WriteLine($"Won with {curr.pressesA} & {curr.pressesB}");
                     return (curr.pressesA * 3) + curr.pressesB;
                 }
 
@@ -96,7 +90,6 @@ namespace AdventOfCode2023.Solutions
                 queue.Enqueue((new Point(curr.loc.X + buttonB.X, curr.loc.Y + buttonB.Y), curr.pressesA, curr.pressesB + 1), (curr.pressesA * 3) + curr.pressesB + 1);
             }
 
-            Console.WriteLine("No Win");
             return 0;
         }
 
