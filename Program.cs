@@ -2,7 +2,7 @@
 using AdventOfCode2023.Solutions;
 using System.Diagnostics;
 
-IDay day = new Day14();
+IDay day = new Day15();
 
 Stopwatch sw = Stopwatch.StartNew();
 day.SolveA();
