@@ -40,17 +40,21 @@ namespace AdventOfCode2023.Solutions
             var match = Regex.Match(programString, "Program: (.*)");
             var ops = match.Groups[1].Value.Split(',').Select(c => (ulong)(c[0] - '0')).ToList();
 
-            var output = RunProgram(registers, ops);
+            var res = RunProgram(registers, ops);
 
-            if (!string.IsNullOrWhiteSpace(output))
+            res.Reverse();
+
+
+            if (res.Count > 0)
             {
-                Console.WriteLine(output.Substring(0, output.Length - 1));
+                string output = string.Join(",", res);
+                Console.WriteLine(output);
             }
         }
 
-        private string RunProgram(Dictionary<string, ulong> registers, List<ulong> opCodes)
+        private List<int> RunProgram(Dictionary<string, ulong> registers, List<ulong> opCodes)
         {
-            StringBuilder sb = new StringBuilder();
+            List<int> res = [];
             for (int idx = 0; idx < opCodes.Count; idx += 2)
             {
                 var op = opCodes[idx];
@@ -105,7 +109,7 @@ namespace AdventOfCode2023.Solutions
 
                     case 5:
                         var out_ = operandValue % 8;
-                        sb.Append($"{out_},");
+                        res.Insert(0, (int)out_);
                         break;
 
                     case 6:
@@ -125,7 +129,7 @@ namespace AdventOfCode2023.Solutions
                 }
             }
 
-            return sb.ToString();
+            return res;
         }
 
         public void SolveB()
@@ -155,7 +159,10 @@ namespace AdventOfCode2023.Solutions
             var match = Regex.Match(programString, "Program: (.*)");
             var ops = match.Groups[1].Value.Split(',').Select(c => (ulong)(c[0] - '0')).ToList();
 
-            var res = FindFrom(registers, ops, 0, 1);
+            var rops = ops.Select(o => (int)o).ToList();
+            rops.Reverse();
+
+            var res = FindFrom(registers, ops, rops, 0, 1);
 
             if (res.Item1)
             {
@@ -163,30 +170,22 @@ namespace AdventOfCode2023.Solutions
             }
         }
 
-        private (bool, ulong) FindFrom(Dictionary<string, ulong> registers, List<ulong> opCodes, ulong code, int digits)
+        private (bool, ulong) FindFrom(Dictionary<string, ulong> registers, List<ulong> opCodes, List<int> rops, ulong code, int digits)
         {
             if (digits > opCodes.Count)
             {
                 return (true, code >> 3);
             }
 
-            List<ulong> rops = new List<ulong>(opCodes);
-            rops.Reverse();
-            for (int i = 0; i < 8; i++)
+            for (ulong i = 0; i < 8; i++)
             {
-                ulong mid = code + (ulong)i;
+                ulong mid = code + i;
                 registers["A"] = mid;
-                registers["B"] = 0;
-                registers["C"] = 0;
 
-                var output = RunProgram(registers, opCodes);
-                output = output.Substring(0, output.Length - 1);
-
-                var rops2 = output.Split(',').Select(c => (ulong)(c[0] - '0')).ToList();
-                rops2.Reverse();
+                var rops2 = RunProgram(registers, opCodes);
 
                 bool found = true;
-                foreach ((var a, var b) in rops.Take(digits).Zip(rops2))
+                foreach ((var a, var b) in rops.Zip(rops2))
                 {
                     if (a != b)
                     {
@@ -197,7 +196,7 @@ namespace AdventOfCode2023.Solutions
 
                 if (found)
                 {
-                    var res = FindFrom(registers, opCodes, mid << 3, digits + 1);
+                    var res = FindFrom(registers, opCodes, rops, mid << 3, digits + 1);
 
                     if (res.Item1)
                     {
