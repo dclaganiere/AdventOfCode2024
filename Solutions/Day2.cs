@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions
+namespace AdventOfCode2024.Solutions
 {
     internal class Day2 : IDay
     {

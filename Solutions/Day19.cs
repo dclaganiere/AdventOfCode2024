@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions
+namespace AdventOfCode2024.Solutions
 {
     internal class Day19 : IDay
     {
@@ -19,7 +19,7 @@ namespace AdventOfCode2023.Solutions
             string tLine = reader.ReadLine() ?? string.Empty;
 
             var sp = tLine.Split(", ");
-            List<string> towels = sp.ToList();
+            List<string> towels = [.. sp];
 
             reader.ReadLine();
 
@@ -35,7 +35,7 @@ namespace AdventOfCode2023.Solutions
             Console.WriteLine(sum);
         }
 
-        public bool CanMakePattern(List<string> towels, string pattern, int idx)
+        public static bool CanMakePattern(List<string> towels, string pattern, int idx)
         {
             if (idx == pattern.Length)
             {
@@ -64,7 +64,7 @@ namespace AdventOfCode2023.Solutions
             string tLine = reader.ReadLine() ?? string.Empty;
 
             var sp = tLine.Split(", ");
-            List<string> towels = sp.ToList();
+            List<string> towels = [.. sp];
 
             reader.ReadLine();
 
@@ -78,7 +78,7 @@ namespace AdventOfCode2023.Solutions
             Console.WriteLine(sum);
         }
 
-        Dictionary<string, long> lookup = new();
+        private readonly Dictionary<string, long> lookup = [];
         public long CalcWaysMakePattern(List<string> towels, string pattern, int idx)
         {
             if (idx == pattern.Length)
@@ -87,7 +87,7 @@ namespace AdventOfCode2023.Solutions
             }
 
             string substring = pattern[idx..];
-            if (!lookup.ContainsKey(substring))
+            if (!lookup.TryGetValue(substring, out long value))
             {
                 long ways = 0;
                 foreach (string towel in towels)
@@ -97,10 +97,12 @@ namespace AdventOfCode2023.Solutions
                         ways += CalcWaysMakePattern(towels, pattern, idx + towel.Length);
                     }
                 }
-                lookup[substring] = ways;
+
+                value = ways;
+                lookup[substring] = value;
             }
 
-            return lookup[substring];
+            return value;
         }
     }
 }

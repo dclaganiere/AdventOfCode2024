@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using AdventOfCode2023.Solutions;
+using AdventOfCode2024.Solutions;
 using System.Diagnostics;
 
 IDay day = new Day19();

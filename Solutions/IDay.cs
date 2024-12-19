@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions
+namespace AdventOfCode2024.Solutions
 {
     internal interface IDay
     {

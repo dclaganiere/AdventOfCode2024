@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2023.Solutions
+namespace AdventOfCode2024.Solutions
 {
-    internal class Day14 : IDay
+    internal partial class Day14 : IDay
     {
         public record Robot(int Px, int Py, int Vx, int Vy);
         const string InputFile = "Input\\" + nameof(Day14) + ".txt";
@@ -23,12 +23,12 @@ namespace AdventOfCode2023.Solutions
             int midX = (maxX - 1) / 2;
             int midY = (maxY - 1) / 2;
 
-            List<Robot> robots = new List<Robot>();
+            List<Robot> robots = [];
 
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine() ?? string.Empty;
-                var re = Regex.Match(line, "p=(-?\\d+),(-?\\d+) v=(-?\\d+),(-?\\d+)");
+                var re = RobotRegex().Match(line);
                 if (re.Success)
                 {
                     int px = int.Parse(re.Groups[1].Value);
@@ -61,7 +61,6 @@ namespace AdventOfCode2023.Solutions
         public void SolveB()
         {
             using StreamReader reader = new(InputFile);
-            int sum = 0;
 
             int maxX = 101;
             int maxY = 103;
@@ -69,13 +68,13 @@ namespace AdventOfCode2023.Solutions
             int midX = (maxX - 1) / 2;
             int midY = (maxY - 1) / 2;
 
-            List<Robot> robots = new List<Robot>();
-            List<Robot> robots2 = new List<Robot>();
+            List<Robot> robots = [];
+            List<Robot> robots2 = [];
 
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine() ?? string.Empty;
-                var re = Regex.Match(line, "p=(-?\\d+),(-?\\d+) v=(-?\\d+),(-?\\d+)");
+                var re = RobotRegex().Match(line);
                 if (re.Success)
                 {
                     int px = int.Parse(re.Groups[1].Value);
@@ -91,7 +90,7 @@ namespace AdventOfCode2023.Solutions
             while (seconds < 10403)
             {
                 seconds++;
-                HashSet<(int x, int y)> points = new();
+                HashSet<(int x, int y)> points = [];
                 bool isOverlap = false;
                 for (int j = 0; j < robots.Count; j++)
                 {
@@ -124,5 +123,8 @@ namespace AdventOfCode2023.Solutions
                 }
             }
         }
+
+        [GeneratedRegex("p=(-?\\d+),(-?\\d+) v=(-?\\d+),(-?\\d+)")]
+        private static partial Regex RobotRegex();
     }
 }
