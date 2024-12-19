@@ -78,7 +78,7 @@ namespace AdventOfCode2023.Solutions
             Console.WriteLine(sum);
         }
 
-        Dictionary<(string pattern, int idx), long> lookup = new();
+        Dictionary<string, long> lookup = new();
         public long CalcWaysMakePattern(List<string> towels, string pattern, int idx)
         {
             if (idx == pattern.Length)
@@ -86,20 +86,21 @@ namespace AdventOfCode2023.Solutions
                 return 1;
             }
 
-            if (!lookup.ContainsKey((pattern, idx)))
+            string substring = pattern[idx..];
+            if (!lookup.ContainsKey(substring))
             {
                 long ways = 0;
                 foreach (string towel in towels)
                 {
-                    if (pattern[idx..].StartsWith(towel))
+                    if (substring.StartsWith(towel))
                     {
                         ways += CalcWaysMakePattern(towels, pattern, idx + towel.Length);
                     }
                 }
-                lookup[(pattern, idx)] = ways;
+                lookup[substring] = ways;
             }
 
-            return lookup[(pattern, idx)];
+            return lookup[substring];
         }
     }
 }
