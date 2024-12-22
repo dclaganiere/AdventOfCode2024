@@ -24,7 +24,6 @@ namespace AdventOfCode2024.Solutions
                 long value = long.Parse(line[..^1]);
                 string output = BFS(line);
 
-                Console.WriteLine($"{line} = {output.Length}: {output}");
                 sum += value * output.Length;
             }
 
